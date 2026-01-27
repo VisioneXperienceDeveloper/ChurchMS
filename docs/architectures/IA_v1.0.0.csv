@@ -1,0 +1,161 @@
+                     ,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,, ,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,Level,Page,Information,Function,Descrpition,관리자,날짜
+,,,,,,0,LandingPage,"• Main features information(logo)
+• CTA Btn","navigate(to: ""RegisterPage"" | ""LoginPage"") -> void",,ADMINISTER,
+,,,,,,0,RegisterPage,"• Input form: email, password, passwordConfirm, name, phone
+• Validation messages (format errors, password mismatch, duplicate email)
+• Submit button, loading indicator
+• Success / failure toast messages","• register(email, password, name, phone) -> { userId } (logined user's default role is Leader)
+• (Optional) checkEmailAvailable(email) -> boolean",,ADMINISTER,
+,,,,,,0,LoginPage,"• Input form: email, password, isAutoLogin
+• Login failure message
+• Submit button, loading indicator","login(email, password) -> tokens",,ADMINISTER,
+,,,,,,1,DashboardPage,"• Header: church/service name, user profile menu, (optional) Logout
+• Stats cards: totalMemberCount, newcomerCount
+• Primary CTA: + Create Group button
+• GroupListTable
+  - columns: groupName, memberCount, leaderName, leaderPhone, leaderEmail
+  - row click -> GroupDetailPage (selected group)
+  - row action (optional): Edit -> UpdateGroupPage (context: FARM)","getDashboard() -> { totalMemberCount, newcomerCount, 
+groups: [{ groupId, groupName, memberCount, leaderName, leaderPhone, leaderEmail }] }",,PASTOR,
+,,,,,,1,CreateGroupPage,"[Input Form]
+• groupName (required)
+• Leader selection (required)
+  - leader search input
+  - search result list (name, phone, role)
+[Actions]
+• Cancel button
+• Create button (loading / disabled state)
+[Validation Messages]
+• groupName required / duplicate name (if applicable)
+• leader not selected","• searchPerson(keyword) -> [{ personId, name, phone, role }]
+• createGroup(groupName, leaderPersonId) -> { groupId }
+• (Optional) checkGroupNameAvailable(groupName) -> boolean",,PASTOR,
+,,,,,,2,GroupDetailPage,"• Group header
+  - groupName
+  - type
+  - leaderName / leaderPhone
+• CellListTable
+  - columns: cellName, leaderName, leaderPhone, leaderEmail
+  - row click (disabled in MVP if no detail page yet)","• getGroupDetail(groupId) -> { group: { groupId, groupName, type, leaderName, leaderPhone, leaderEmail }, 
+cells: [{ cellId, cellName, leaderName, leaderPhone, leaderEmail  }] ",,LEADER,
+,,,,,,2,UpdateGroupPage,"• Context: FARM or CELL (determined by group.type)
+• EditGroupForm: name, type (policy-dependent), leader change (search/select)
+• System info: createdAt, updatedAt
+• Save button, Delete button (confirmation varies by type)","• getGroup(groupId) -> { groupId, name, type, leaderPersonId, createdAt, updatedAt }
+• searchPerson(keyword) -> [{ personId, name, phone }]
+• updateGroup(groupId, { name?, leaderPersonId?, type? }) -> boolean
+• deleteGroup(groupId) -> boolean",,LEADER,
+,,,,,,3,MemberDetailPage,"• Member info
+  - name
+  - role
+  - assignedAt
+  - dob
+  - phone
+  - kakao
+  - occupation
+  - hasBaptised
+  - visaType
+  - notes
+• (Note) Delete action as admin-only","• getMemberDetail(personId) -> { person: { ... } }
+• (Optional) deletePerson(personId) -> boolean",,MEMBER,
+,,,,,,3,NewComerDetailPage,"• Newcomer info
+  - visitedAt
+  - newcomerType
+  - inviter
+  - prevChurchName
+  - prevServedPart
+  - eduStatus
+• Shared person info
+  - name
+  - contact details","• getNewComerDetail(personId) -> { person: { ... }, 
+newcomer: { visitedAt, type, inviter, prevChurchName, prevServedPart, eduStatus } }",,NEWCOMER,
+,,,,,,3,CreateMemberPage,"• Input form
+  - name
+  - role (default MEMBER)
+  - assignedAt
+  - dob
+  - phone
+  - kakao
+  - occupation
+  - hasBaptised
+  - visaType
+  - notes
+• Submit button",• createMember(personData) -> { personId },,LEADER,
+,,,,,,3,CreateNewComerPage,"• Input form
+  - name
+  - phone
+  - visitDate
+• Inviter selection
+  - inviter search input
+  - selected inviter
+• prevChurchName
+• type
+• (Optional) prevServedPart
+• Submit button","• searchPerson(keyword) -> [{ personId, name, phone }]
+• createNewComer(personData, newcomerData) -> { personId }",,LEADER,
+,,,,,,3,ProfilePage,"• MyProfileInfo: name, role, dob
+• Contact info: phone, email, kakao
+• Personal church-related info: visaType, hasBaptised
+• Save button, Logout button
+• View / Edit states","• getMyProfile() -> { person: { name, role, dob, phone, email, kakao, visaType, hasBaptised } }
+• updateMyProfile(profileData) -> boolean
+• logout() -> void",,MEMBER,
+,,,,,,3,UpdateProfilePage,"• EditProfileForm (personal info)
+• Password change section
+  - oldPassword
+  - newPassword
+  - newPasswordConfirm
+• Save button","• updateMyProfile(profileData) -> boolean
+• changePassword(oldPw, newPw) -> boolean",,MEMBER,
+,,,,,,4,UpdateMemberPage,"• Admin edit form (member information)
+• Role change dropdown (if allowed by policy)
+• Save button","• updatePerson(personId, personData) -> boolean
+• updateRole(personId, role) -> boolean",,LEADER,
+,,,,,,4,UpdateNewComerPage,"• EditNewComerForm
+  - visitedAt
+  - type
+  - inviter (search / select)
+  - prevChurchName
+  - prevServedPart
+  - eduStatus
+• Save button","• updatePerson(personId, personData) -> boolean
+• updateEduStatus(personId, eduStatus) -> boolean
+• (Optional) updateNewComerInfo(personId, newcomerData) -> boolean
+• searchPerson(keyword) -> [{ personId, name, phone }]",,LEADER,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,Level,Page,Information,Function,Descrpition,관리자,날짜
+,,,,,,0,LandingPage,"Main features information(logo), CTA Btn","Navigator(-> Register, Login)",,ADMINISTER,
+,,,,,,0,RegisterPage,"RegisterForm (email, PW, PWConfirm, name, phone), SubmitBtn",register() -> boolean,,ADMINISTER,
+,,,,,,0,LoginPage,"LoginForm (email, password, isAutoLogin), SubmitBtn","login(email, password) -> tokens",,ADMINISTER,
+,,,,,,1,DashboardPage,"DashboardStats (totalMember, newComerCount), FarmListTable (farmName, memberCount, leaderName, leaderPhone, leaderEmail)","getFarms(userId) -> [{ farmId, farmName, memberCount, leaderName, leaderPhone, leaderEmail }]",,PASTOR,
+,,,,,,2,GroupDetailPage,"GroupDetailView (groupName, type), CellListTable (cellName, leaderName, leaderPhone, leaderEmail)","getFarms(userId), getCells(farmId) -> [{ cellId, cellName, leaderName, leaderPhone, leaderEmail }]",,LEADER,
+,,,,,,2,CreateGroupPage,"CreateGroupForm (Group Name, Type Select, Leader Search), SubmitBtn","searchPerson(name) -> personList, createGroup() -> groupId, createGroup()",,PASTOR,
+,,,,,,2,ProfilePage,"MyProfileInfo (Name, Role, DOB), Contact (Phone, Email, Kakao), Church Info (VisaType, Baptism), SaveBtn, logoutBtn","getMyProfile(userId) -> { person, church, contact }, logout() -> void",,MEMBER,
+,,,,,,3,UpdateGroupPage,"EditGroupForm (Name, Type, Leader), System Info (Created/UpdatedAt), SaveBtn, DeleteBtn","updateGroup(groupId, groupData) -> boolean, deleteGroup(groupId) -> boolean",,LEADER,
+,,,,,,3,MemberDetailPage,"Member Info (Name, Role, AssignedAt , Bod, Phone, KaKao, Occupation, Baptism, VisaType, notes)","getPersonDetail(personId) -> { person, history }, deletePerson(personId) -> boolean",,MEMBER,
+,,,,,,3,NewComerDetailPage,"NewComer Info (MemberDetail, visitedAt, NewComerType, inviter, prevChurchName, prevServedPart, newComerEduStatus)","getPersonDetail(personId) -> { person, newComerData }",,NEWCOMER,
+,,,,,,3,CreateMemberPage,"CreateMemberForm (Name, Role, AssignedAt , Bod, Phone, KaKao, Occupation, Baptism, VisaType, notes), SubmitBtn",createPerson(personData) -> personId,,LEADER,
+,,,,,,3,CreateNewComerPage,"CreateNewComerForm (Name, Phone, VisitDate, Inviter Search, PrevChurch, Type), SubmitBtn",createPerson(personData) -> personId,,LEADER,
+,,,,,,3,UpdateProfilePage,"EditProfileForm (Member Info), Password Change (Old/New PW), SaveBtn","updateMyProfile(personData) -> boolean, changePassword(oldPw, newPw) -> boolean",,MEMBER,
+,,,,,,4,UpdateMemberPage,"Admin Edit Form (MemberInfo), SaveBtn","updatePerson(personId, personData) -> boolean, updateRole(personId, role) -> boolean",,LEADER,
+,,,,,,4,UpdateNewComerPage,"EditNewComerForm (NewComerInfo), SaveBtn","updatePerson(personId, personData) -> boolean, updateEduStatus(personId, eduStatus) -> boolean",,LEADER,
