@@ -2,7 +2,7 @@
 name: Branch Creator
 description: Safely create git branches or worktrees with strict naming conventions.
 triggers:
-  - @branch
+  - "+branch"
   - "브랜치 생성"
 ---
 
@@ -23,7 +23,7 @@ Always format branch names as: `category/kebab-case-description`
 
 **Step 1: Input Analysis**
 * If the user provides a raw name (e.g., "login page"), convert it to the convention (e.g., `feature/login-page-ui`).
-* Refer to the Plan from `@plan` if available.
+* Refer to the Plan from `+plan` if available.
 
 **Step 2: Command Generation**
 Provide the specific shell commands to execute. Always prioritize **fetching latest changes** first.

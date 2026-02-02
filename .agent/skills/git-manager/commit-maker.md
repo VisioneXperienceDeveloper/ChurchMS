@@ -2,7 +2,7 @@
 name: Commit Maker
 description: Generate semantic git commit messages based on changes.
 triggers:
-  - @commit
+  - "+commit"
   - "커밋 메시지"
 ---
 
@@ -28,7 +28,7 @@ Format: `type(scope): subject`
     * **Body:** Wrap at 72 chars. Explain *what* and *why* (not *how*).
 
 ## 3. Input Processing
-Use context from the previous **`@analyze`** or **`@plan`** steps.
+Use context from the previous **`+analyze`** or **`+plan`** steps.
 
 ## 4. Output Template
 ```text

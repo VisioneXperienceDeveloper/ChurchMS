@@ -2,7 +2,7 @@
 name: PR Writer
 description: Generate a comprehensive Pull Request description for reviewers.
 triggers:
-  - @pr
+  - "+pr"
   - "PR 작성"
 ---
 
@@ -13,10 +13,10 @@ Write a Pull Request description that provides context, visualizes changes, and 
 
 ## 2. Source Material
 Gather information from:
-* **`@plan`**: What was the original intent?
-* **`@analyze`**: What are the metrics/risks?
-* **`@doc`**: Are there doc updates or screenshots?
-* **`@commit`**: Are there commit messages?
+* **`+plan`**: What was the original intent?
+* **`+analyze`**: What are the metrics/risks?
+* **`+doc`**: Are there doc updates or screenshots?
+* **`+commit`**: Are there commit messages?
 
 ## 3. Output Format (Markdown)
 Generate the following Markdown block ready for Copy & Paste:
@@ -38,9 +38,9 @@ Generate the following Markdown block ready for Copy & Paste:
 3.  Action: Click "Save"
 4.  Expectation: Toast message appears and network call is cached.
 
-#### 📊 Impact Analysis (from @analyze)
+#### 📊 Impact Analysis (from +analyze)
 * **Risk:** `[Low/Medium/High]`
-* **Metrics:** `[Insert metrics from @analyze]`
+* **Metrics:** `[Insert metrics from +analyze]`
 
 #### ✅ Checklist
 - [x] Tests written and passing

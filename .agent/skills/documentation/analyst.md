@@ -2,7 +2,7 @@
 name: Impact Analyst
 description: Analyze the diff to quantify changes, estimate risk, and suggest versioning.
 triggers:
-  - @analyze
+  - "+analyze"
   - "성과 분석"
 ---
 
@@ -44,7 +44,7 @@ Generate a report in this format:
   (One sentence summary of the value delivered)
 
 ## 4. Example Interaction
-**User:** `@analyze`
+**User:** `+analyze`
 **AI:**
 "### 📊 Impact Report
 - **Type:** `refactor`

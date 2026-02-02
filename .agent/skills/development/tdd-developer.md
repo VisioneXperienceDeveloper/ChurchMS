@@ -2,7 +2,7 @@
 name: TDD Developer
 description: Execute the Red-Green-Refactor cycle.
 triggers:
-  - @tdd
+  - "+tdd"
   - "tdd 시작"
   - "구현 시작"
 ---
@@ -53,7 +53,7 @@ Use specific headers to denote the current phase.
 **AI (TDD Architect):**
 ### 🔴 Phase: RED
 **Target:** `src/auth/auth.service.ts`
-**Test:** `src/auth/__tests__/auth.service.spec.ts`
+**Test:** `__tests__/unit/auth/auth.service.spec.ts`
 
 비밀번호가 8자 미만일 때 에러를 던지는 테스트를 작성했습니다.
 > **실행 결과:** ❌ 실패 (Expected 401, got undefined / 함수가 아직 구현되지 않음)

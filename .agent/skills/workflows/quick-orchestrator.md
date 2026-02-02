@@ -2,8 +2,8 @@
 name: Quick Fix Orchestrator
 description: A streamlined workflow for minor fixes, typos, and simple config changes.
 triggers:
-  - @quick
-  - @hotfix
+  - "+quick"
+  - "+hotfix"
   - "빠른 수정"
 ---
 
@@ -28,7 +28,7 @@ You are the **Maintenance Lead**. Your goal is **Speed & Safety**. You prioritiz
     * **Constraint:** Do not proceed to commit if verification fails.
 
 4.  **Finalize:**
-    * Generate a concise commit message using **`@commit`**.
+    * Generate a concise commit message using **`+commit`**.
     * Documentation for fix log is required for quick fixes.
     * (Optional) If requested, generate a brief PR description.
 

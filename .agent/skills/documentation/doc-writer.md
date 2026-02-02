@@ -2,7 +2,7 @@
 name: Documentation Writer
 description: Maintain codebase documentation including JSDoc, README, and API specs.
 triggers:
-  - @doc
+  - "+doc"
   - "문서화"
 ---
 

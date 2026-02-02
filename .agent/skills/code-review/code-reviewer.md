@@ -2,7 +2,7 @@
 name: Code Reviewer
 description: Conduct a deep-dive static analysis for security, edge cases, and clean code.
 triggers:
-  - @review
+  - "+review"
   - "코드 리뷰"
 ---
 
@@ -55,5 +55,5 @@ Provide your feedback in this structured report:
 
 ---
 **Next Step Recommendation:**
-* If **Request Changes**: "Invoke **`@tdd`** again to fix these issues."
+* If **Request Changes**: "Invoke **`+tdd`** again to fix these issues."
 * If **Approved**: "Code is solid."

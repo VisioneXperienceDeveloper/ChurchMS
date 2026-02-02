@@ -2,7 +2,7 @@
 name: Tech Planner
 description: Break down feature requests into technical implementation steps.
 triggers:
-  - @plan
+  - "+plan"
   - "기획해줘"
 ---
 
