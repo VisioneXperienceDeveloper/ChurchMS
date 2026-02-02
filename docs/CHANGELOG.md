@@ -6,17 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-## [Unreleased]
+## [0.0.3] - 2026-02-02
 
-### Added
+### Updated
 
-- Added a changelog
+- ERD_v1.3.1.svg
 
 --- 
 
 ## [0.0.2] - 2026-01-27
 
-### Documentation
+### Updated
 - ERD_v1.2.0.svg
 
 --- 
