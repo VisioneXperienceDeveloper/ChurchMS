@@ -1,0 +1,73 @@
+
+model GroupType {
+  id String @id @default(uuid())
+
+  // Basic Info
+  name  String
+  order Int
+
+  // Relations
+  groups Group[]
+
+  church         Church       @relation(fields: [churchId], references: [id])
+  churchId       String
+  seniorPastor   SeniorPastor @relation(fields: [seniorPastorId], references: [id])
+  seniorPastorId String
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Group {
+  id String @id @default(uuid())
+
+  // Basic Info
+  name        String
+  type        GroupType @relation(fields: [groupTypeId], references: [id])
+  groupTypeId String
+
+  // Relations
+  church    Church?
+  subGroups SubGroup[]
+
+  // Metadata
+  createdAt DateTime @default(now())
+}
+
+model Church {
+  id    String @id
+  group Group  @relation(fields: [id], references: [id])
+
+  // Basic Info
+  address        String?
+  phone          String?
+  estDate        DateTime?
+  seniorPastor   SeniorPastor @relation(fields: [seniorPastorId], references: [id])
+  seniorPastorId String
+  groupTypes     GroupType[]
+
+  // Metadata
+  updatedAt DateTime @updatedAt
+}
+
+model SubGroup {
+  id    String @id
+  group Group  @relation(fields: [id], references: [id])
+
+  // Hierarchy
+  parent   SubGroup?  @relation("GroupHierarchy", fields: [parentId], references: [id])
+  parentId String?
+  children SubGroup[] @relation("GroupHierarchy")
+
+  // Leader
+  pastor   Pastor? @relation("GroupPastor", fields: [pastorId], references: [id])
+  pastorId String?
+  leader   Leader? @relation("GroupLeader", fields: [leaderId], references: [id])
+  leaderId String? @unique
+
+  members Person[]
+
+  // Metadata
+  updatedAt DateTime @updatedAt
+}
