@@ -3,6 +3,7 @@
 
 import { usePathname } from "next/navigation";
 import { Search, Bell } from "lucide-react";
+
 import { Input } from "@/shared/ui/input";
 import { Button } from "@/shared/ui/button";
 
@@ -11,13 +12,14 @@ export function Header() {
 
   // Simple title logic (can be expanded)
   const getTitle = () => {
-    if (pathname === "/dashboard") return "Dashboard";
-    if (pathname.startsWith("/groups")) return "Groups > Uni Farm"; // hardcoded for demo as per screenshot
+    if (pathname === "/dashboard") return "Dashboard Overview";
+    if (pathname === "/") return "Dashboard Overview"; // Handle root case if redirected
+    if (pathname.startsWith("/groups")) return "Groups > Uni Farm"; 
     if (pathname.startsWith("/members")) return "Members";
     if (pathname.startsWith("/events")) return "Events";
     if (pathname.startsWith("/giving")) return "Giving";
     if (pathname.startsWith("/settings")) return "Settings";
-    return "Dashboard";
+    return "Dashboard Overview";
   };
 
   return (
