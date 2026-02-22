@@ -1,0 +1,39 @@
+// Enums based on PRD
+enum Role {
+  ADMIN // 개발 관리자
+  SENIOR_PASTOR // 담임목사님
+  PASTOR // 목사님
+  LEADER // 셀리더/소그룹 리더
+  MEMBER // 성도
+  NEWCOMER // 새신자
+}
+
+enum PersonType {
+  // 새신자 타입
+  A // 교회가 처음인 사람
+  B // 교회를 오랜만에 다시 나온 사람
+  C // 교회가 익숙한 사람
+
+  // 기존 성도 타입
+  D // 예배만 드리는 성도
+  E // 스스로 모임에 참여
+  F // 전반적으로 적극적
+  G // 관심이 필요한 성도
+}
+
+enum VisaType {
+  STUDENT
+  WORKING_HOLIDAY
+  TRAVELLING
+  SPONSERSHIP
+  CITIZENSHIP
+  PR
+  GRADUATE
+  ETC
+}
+
+enum ProcessStatus {
+  READY
+  IN_PROGRESS
+  COMPLETED
+}
