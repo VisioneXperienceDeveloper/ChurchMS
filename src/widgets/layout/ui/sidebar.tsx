@@ -35,7 +35,7 @@ export function Sidebar({ isCollapsed, toggleCollapse }: SidebarProps) {
                   <div className="h-4 w-4 rounded-full bg-primary" />
                 </div>
                 <div className="flex flex-col">
-                    <span className="text-sm">City Juan Church</span>
+                    <h1 className="text-sm">City Juan Church</h1>
                     <span className="text-xs font-normal text-muted-foreground">Admin Portal</span>
                 </div>
             </div>
