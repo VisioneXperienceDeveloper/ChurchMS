@@ -2,7 +2,7 @@ export { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 export { Badge } from "./badge";
 export { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "./breadcrumb";
 export { Button } from "./button";
-export { Card, CardContent, CardHeader, CardTitle } from "./card";
+export { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter, CardAction } from "./card";
 export { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./dropdown-menu";
 export { Input } from "./input";
 export { Label } from "./label";

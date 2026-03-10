@@ -1,8 +1,16 @@
-import { Button } from "@/shared/ui/button"
-import { Input } from "@/shared/ui/input"
-import { Label } from "@/shared/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card"
 import Link from 'next/link'
+
+import { 
+  Button, 
+  Input, 
+  Label, 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/shared/ui"
 
 export default function LoginPage() {
   return (
@@ -15,7 +23,27 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4">
+          <form action={async (formData) => {
+            "use server";
+            const email = formData.get("email");
+            const password = formData.get("password");
+            
+            try {
+              const { signIn } = await import("@/shared/lib/auth");
+              await signIn("credentials", {
+                email,
+                password,
+                redirectTo: "/members",
+              });
+            } catch (error) {
+              // NextAuth throws when returning redirect
+              if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+                throw error;
+              }
+              // Handle other errors (e.g. invalid credentials)
+              console.error(error);
+            }
+          }} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">이메일</Label>
               <Input id="email" name="email" type="email" placeholder="name@example.com" required />
