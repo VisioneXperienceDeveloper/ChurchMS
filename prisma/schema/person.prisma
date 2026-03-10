@@ -54,6 +54,7 @@ model Person {
 
   // Metadata
   createdAt DateTime @default(now())
+  deletedAt DateTime?
 }
 
 model SeniorPastor {
