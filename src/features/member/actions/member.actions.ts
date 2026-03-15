@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/shared/lib/prisma";
-import { Role, PersonType, Prisma } from "@/shared/generated/prisma";
+import { Role, PersonType, Prisma } from "@/shared/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function getMembers(searchQuery?: string) {

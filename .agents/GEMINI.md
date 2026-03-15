@@ -74,6 +74,23 @@ Modules can only import from modules directly below them in the hierarchy.
 - **Styling Preference**: ONLY use Tailwind CSS utility classes. Combine classes logically using `clsx` and `tailwind-merge`. Avoid custom CSS unless absolutely necessary in global scope.
 - **Public API (Index Exports)**: Each slice in `widgets`, `features`, and `entities` MUST explicitly export its public components and types via an `index.ts`. Other layers must import purely from this root `index.ts`.
 
+### 3.4. Import Ordering
+- **Directives First**: `"use client"` or `"use server"` must be the very first line.
+- **Library Imports**: Imports from `node_modules` (e.g., `react`, `next`, `@radix-ui/...`) come first.
+- **Local Imports**: Imports using alias paths (e.g., `@/shared/...`, `@/features/...`) come after library imports.
+- **Separation**: Groups (library vs local) must be separated by exactly one empty line.
+
+Example:
+```tsx
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { LoginForm } from "@/features/auth/ui";
+import { Button } from "@/shared/ui/button";
+```
+
 ## 4. Test-Driven Development (TDD) Guidelines
 
 This project embraces TDD to ensure code reliability and maintainability. Writing tests before implementation helps clarify requirements and design.

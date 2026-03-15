@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getMemberById, updateMember } from "@/features/member/actions/member.actions";
 import { Input, Button, Label, Card, CardContent, CardHeader, CardTitle } from "@/shared/ui";
-import { Role } from "@/shared/generated/prisma";
+import { Role } from "@/shared/generated/prisma/client";
 
 export default function EditMemberPage() {
   const params = useParams();

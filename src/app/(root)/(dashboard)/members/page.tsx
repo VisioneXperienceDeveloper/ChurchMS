@@ -6,12 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, Plus, UserCircle } from "lucide-react";
 
 import { getMembers } from "@/features/member/actions/member.actions";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
   TableRow,
   Input,
   Button,
