@@ -1,16 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { container } from "@server/shared/di-container";
-import { SigninUseCase } from "@server/use-cases/auth/signin-use-case";
+import { AppResponse } from "@server/shared/api-response";
 
 export async function POST(req: NextRequest) {
   try {
     const authHeader = req.headers.get("authorization");
 
     if (!authHeader || !authHeader.startsWith("Basic ")) {
-      return NextResponse.json(
-        { status: false, statusCode: 401, error: "Missing Basic Auth header" },
-        { status: 401 }
-      );
+      return AppResponse.error("Missing Basic Auth header", 401);
     }
 
     const base64Credentials = authHeader.split(" ")[1];
@@ -18,26 +15,13 @@ export async function POST(req: NextRequest) {
     const [email, password] = credentials.split(":");
 
     if (!email || !password) {
-      return NextResponse.json(
-        { status: false, statusCode: 401, error: "Invalid Basic Auth format" },
-        { status: 401 }
-      );
+      return AppResponse.error("Invalid Basic Auth format", 401);
     }
 
-    const signinUseCase = new SigninUseCase(
-      container.userRepository,
-      container.hasher,
-      container.authService
-    );
-
+    const signinUseCase = container.getSigninUseCase();
     const { user, accessToken, refreshToken } = await signinUseCase.execute(email, password);
 
-    const response = NextResponse.json({
-      status: true,
-      statusCode: 200,
-      data: { accessToken, user },
-      message: "Signin successful",
-    });
+    const response = AppResponse.success({ accessToken, user }, 200, { message: "Signin successful" });
 
     // Set Refresh Token as HTTP-Only Cookie
     response.cookies.set({
@@ -52,9 +36,6 @@ export async function POST(req: NextRequest) {
     return response;
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Authentication failed";
-    return NextResponse.json(
-      { status: false, statusCode: 401, error: message },
-      { status: 401 }
-    );
+    return AppResponse.error(message, 401);
   }
 }

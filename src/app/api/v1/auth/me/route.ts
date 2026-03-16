@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { container } from "@server/shared/di-container";
 import { cookies } from "next/headers";
+import { AppResponse } from "@server/shared/api-response";
 
 export async function GET() {
   try {
@@ -8,7 +8,7 @@ export async function GET() {
     const token = cookieStore.get("accessToken")?.value;
 
     if (!token) {
-      return NextResponse.json({ status: false, error: "Unauthorized" }, { status: 401 });
+      return AppResponse.error("Unauthorized", 401);
     }
 
     const authService = container.authService;
@@ -18,19 +18,15 @@ export async function GET() {
     const user = await userRepository.findById(payload.userId);
 
     if (!user) {
-      return NextResponse.json({ status: false, error: "User not found" }, { status: 404 });
+      return AppResponse.error("User not found", 404);
     }
 
     const { hash: _hash, ...userDTO } = user;
     void _hash;
 
-
-    return NextResponse.json({
-      status: true,
-      data: userDTO,
-    });
+    return AppResponse.success(userDTO);
   } catch {
-    return NextResponse.json({ status: false, error: "Invalid token" }, { status: 401 });
+    return AppResponse.error("Invalid token", 401);
   }
 }
 

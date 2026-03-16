@@ -1,38 +1,32 @@
 "use server";
 
-import { prisma } from "@server/infrastructure/prisma";
-import { Role, PersonType, Prisma } from "@client/shared/generated/prisma/client";
+import { Role, Prisma } from "@client/shared/generated/prisma/client";
 import { revalidatePath } from "next/cache";
+import { container } from "@server/shared/di-container";
+
+/**
+ * Standard error handler for Server Actions
+ */
+async function handleAction<T>(action: () => Promise<T>): Promise<T> {
+  try {
+    return await action();
+  } catch (error: unknown) {
+    console.error("Action error:", error);
+    throw error instanceof Error ? error : new Error("An unexpected error occurred");
+  }
+}
 
 export async function getMembers(searchQuery?: string) {
-  const members = await prisma.person.findMany({
-    where: {
-      deletedAt: null,
-      ...(searchQuery ? {
-        OR: [
-          { firstName: { contains: searchQuery, mode: "insensitive" } },
-          { lastName: { contains: searchQuery, mode: "insensitive" } },
-        ]
-      } : {})
-    },
-    orderBy: {
-      createdAt: 'desc'
-    },
-    include: {
-      group: true,
-    }
+  return handleAction(async () => {
+    const useCase = container.getGetMembersUseCase();
+    return await useCase.execute(searchQuery);
   });
-
-  return members;
 }
 
 export async function getMemberById(id: string) {
-  return await prisma.person.findUnique({
-    where: { id, deletedAt: null },
-    include: {
-      group: true,
-      member: true,
-    }
+  return handleAction(async () => {
+    // Note: We can add a simple GetMemberByIdUseCase if needed, but for now repository call is fine if simple
+    return await container.memberRepository.findById(id);
   });
 }
 
@@ -44,42 +38,28 @@ export async function createMember(data: {
   role: Role;
   groupId: string;
 }) {
-  const { role, ...personData } = data;
-
-  const newPerson = await prisma.person.create({
-    data: {
-      ...personData,
-      role,
-    }
+  return handleAction(async () => {
+    const useCase = container.getCreateMemberUseCase();
+    const result = await useCase.execute(data);
+    revalidatePath('/members');
+    return result;
   });
-
-  if (role === 'MEMBER') {
-    await prisma.member.create({
-      data: {
-        id: newPerson.id,
-        type: PersonType.D,
-      }
-    });
-  }
-
-  revalidatePath('/members');
-  return newPerson;
 }
 
 export async function updateMember(id: string, data: Prisma.PersonUpdateInput) {
-  const updated = await prisma.person.update({
-    where: { id },
-    data,
+  return handleAction(async () => {
+    const useCase = container.getUpdateMemberUseCase();
+    const result = await useCase.execute(id, data);
+    revalidatePath(`/members/${id}`);
+    revalidatePath('/members');
+    return result;
   });
-  revalidatePath(`/members/${id}`);
-  revalidatePath('/members');
-  return updated;
 }
 
 export async function deleteMember(id: string) {
-  await prisma.person.update({
-    where: { id },
-    data: { deletedAt: new Date() }
+  return handleAction(async () => {
+    const useCase = container.getDeleteMemberUseCase();
+    await useCase.execute(id);
+    revalidatePath('/members');
   });
-  revalidatePath('/members');
 }
