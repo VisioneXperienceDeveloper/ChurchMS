@@ -1,4 +1,4 @@
-import { SignupWizard } from "@/features/auth/ui/SignupWizard"
+import { SignupWizard } from "@client/features/auth/ui/SignupWizard"
 
 export default function RegisterPage() {
   return (

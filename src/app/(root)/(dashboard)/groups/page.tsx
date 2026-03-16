@@ -1,7 +1,7 @@
 "use client";
 
-import { OrgChart, GroupNode } from "@/features/group/ui/org-chart";
-import { Button } from "@/shared/ui/button";
+import { OrgChart, GroupNode } from "@client/features/group/ui/org-chart";
+import { Button } from "@client/shared/ui/button";
 import { Download, Plus } from "lucide-react";
 
 // Mock data for the org chart

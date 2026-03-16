@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { container } from "@/shared/lib/di-container";
-import { SigninUseCase } from "@/features/auth/model/signin-use-case";
+import { container } from "@server/shared/di-container";
+import { SigninUseCase } from "@server/use-cases/auth/signin-use-case";
 
 export async function POST(req: NextRequest) {
   try {

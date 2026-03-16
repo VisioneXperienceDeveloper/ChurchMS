@@ -15,13 +15,13 @@ import {
   Trash
 } from "lucide-react";
 
-import { Card, CardContent } from "@/shared/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
-import { Separator } from "@/shared/ui/separator";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/ui/tooltip";
-import { getMemberById, deleteMember } from "@/features/member/actions/member.actions";
+import { Card, CardContent } from "@client/shared/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@client/shared/ui/avatar";
+import { Button } from "@client/shared/ui/button";
+import { Badge } from "@client/shared/ui/badge";
+import { Separator } from "@client/shared/ui/separator";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@client/shared/ui/tooltip";
+import { getMemberById, deleteMember } from "@client/features/member/actions/member.actions";
 
 export default function MemberPage() {
   const params = useParams();

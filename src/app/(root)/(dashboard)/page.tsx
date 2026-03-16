@@ -1,7 +1,7 @@
 
-import { DashboardStats } from "@/features/dashboard/ui/dashboard-stats";
-import { QuickActions } from "@/features/dashboard/ui/quick-actions";
-import { RecentActivity } from "@/features/dashboard/ui/recent-activity";
+import { DashboardStats } from "@client/features/dashboard/ui/dashboard-stats";
+import { QuickActions } from "@client/features/dashboard/ui/quick-actions";
+import { RecentActivity } from "@client/features/dashboard/ui/recent-activity";
 
 export default function DashboardPage() {
   return (

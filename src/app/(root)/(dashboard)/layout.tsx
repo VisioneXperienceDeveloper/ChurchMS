@@ -1,6 +1,6 @@
 
-import { DashboardLayout } from "@/widgets/layout/ui/dashboard-layout";
-import { auth } from "@/shared/lib/auth";
+import { DashboardLayout } from "@client/widgets/layout/ui/dashboard-layout";
+import { auth } from "@server/infrastructure/auth";
 import { redirect } from "next/navigation";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

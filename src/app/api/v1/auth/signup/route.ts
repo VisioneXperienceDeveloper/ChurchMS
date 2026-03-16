@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { container } from "@/shared/lib/di-container";
+import { container } from "@server/shared/di-container";
 
-import { SignupRequest } from "@/entities/user/model/types";
-import { SignupUseCase } from "@/features/auth/model/signup-use-case";
+import { SignupRequest } from "@client/entities/user/model/types";
+import { SignupUseCase } from "@server/use-cases/auth/signup-use-case";
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { container } from "@/shared/lib/di-container";
+import { container } from "@server/shared/di-container";
 import { cookies } from "next/headers";
 
 export async function GET() {

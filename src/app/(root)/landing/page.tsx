@@ -6,7 +6,7 @@ import {
   TestimonialSection,
   CtaSection,
   Footer,
-} from "@/widgets/landing/ui";
+} from "@client/widgets/landing/ui";
 
 export default function LandingPage() {
   return (

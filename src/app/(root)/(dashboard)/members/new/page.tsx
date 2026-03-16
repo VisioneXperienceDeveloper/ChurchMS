@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createMember } from "@/features/member/actions/member.actions";
-import { Input, Button, Label, Card, CardContent, CardHeader, CardTitle } from "@/shared/ui";
-import { Role } from "@/shared/generated/prisma/client";
+import { createMember } from "@client/features/member/actions/member.actions";
+import { Input, Button, Label, Card, CardContent, CardHeader, CardTitle } from "@client/shared/ui";
+import { Role } from "@client/shared/generated/prisma/client";
 
 export default function NewMemberPage() {
   const router = useRouter();
