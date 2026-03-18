@@ -1,4 +1,4 @@
-import { User, Person } from "@client/shared/generated/prisma/client";
+import { User, Person } from "@/server/shared/generated/prisma/client";
 
 import { SignupRequest } from "@client/entities/user/model/types";
 import { IUserRepository, IPersonRepository, IHasher } from "@server/interfaces/auth-interfaces";

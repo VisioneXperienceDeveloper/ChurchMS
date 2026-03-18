@@ -1,4 +1,4 @@
-import { Role } from "@client/shared/generated/prisma/client";
+import { Role } from "@/server/shared/generated/prisma/client";
 
 /**
  * RBAC Hierarchy (Higher index means higher privilege)

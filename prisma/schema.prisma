@@ -4,5 +4,5 @@ datasource db {
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/shared/generated/prisma"
+  output   = "../src/server/shared/generated/prisma"
 }

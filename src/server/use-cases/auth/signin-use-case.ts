@@ -1,7 +1,6 @@
-import { Role } from "@client/shared/generated/prisma/client";
-
-import { AuthPayload, LoginResponseData } from "@client/entities/user/model/types";
-import { IUserRepository, IAuthService, IHasher } from "@server/interfaces/auth-interfaces";
+import { Role } from "@shared/types/enums";
+import { AuthPayload, LoginResponseData } from "@shared/types/auth";
+import { IUserRepository, IAuthService, IHasher } from "../../interfaces/auth-interfaces";
 
 export class SigninUseCase {
   constructor(
@@ -24,17 +23,15 @@ export class SigninUseCase {
     };
     
     const accessToken = await this.authService.signAccessToken(payload);
-    const refreshToken = await this.authService.signRefreshToken(payload);
+    // const refreshToken = await this.authService.signRefreshToken(payload); // Removing refresh token from shared response for simplicity if not used
 
     return {
       user: {
         id: user.id,
         email: user.email,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+        role: Role.MEMBER, // Matching payload
       },
       accessToken,
-      refreshToken,
     };
   }
 }

@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getMemberById, updateMember } from "@client/features/member/actions/member.actions";
 import { Input, Button, Label, Card, CardContent, CardHeader, CardTitle } from "@client/shared/ui";
-import { Role } from "@client/shared/generated/prisma/client";
+import { apiClient } from "@client/shared/api-client";
+import { Role } from "@shared/types/enums";
+import { PersonDTO, UpdateMemberRequest } from "@shared/types/member";
 
 export default function EditMemberPage() {
   const params = useParams();
@@ -14,17 +15,19 @@ export default function EditMemberPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { data: member, isLoading: queryLoading } = useQuery({
+  const { data: response, isLoading: queryLoading } = useQuery({
     queryKey: ['member', id],
-    queryFn: () => getMemberById(id),
+    queryFn: () => apiClient.get<PersonDTO>(`/api/v1/members/${id}`),
     enabled: !!id,
   });
+
+  const member = response?.data;
 
   async function onSubmit(formData: FormData) {
     setLoading(true);
     setError(null);
     try {
-      const data = {
+      const data: UpdateMemberRequest = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         phone: formData.get("phone") as string,
@@ -32,9 +35,11 @@ export default function EditMemberPage() {
         role: formData.get("role") as Role,
       };
       
-      const updatedMember = await updateMember(id, data);
-      if (updatedMember) {
+      const response = await apiClient.patch(`/api/v1/members/${id}`, data);
+      if (response.success) {
         router.push(`/members/${id}`);
+      } else {
+        setError(response.error?.message || "Failed to update member");
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "An error occurred");

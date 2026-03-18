@@ -2,18 +2,19 @@
 
 import Link from "next/link";
 import { 
+  Badge, 
+  Button, 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle,
   Table, 
   TableBody, 
   TableCell, 
   TableHead, 
   TableHeader, 
   TableRow 
-} from "@client/shared/ui/table";
-import { Badge } from "@client/shared/ui/badge";
-import { Button } from "@client/shared/ui/button";
-import { Input } from "@client/shared/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@client/shared/ui/card";
-import { Search } from "lucide-react";
+} from "@client/shared/ui";
 
 // Mock data type
 export interface MemberData {
@@ -45,10 +46,10 @@ export function MemberDictionary({ title = "Member Dictionary", items, onAddClic
       <CardContent>
         {/* Search bar could go here if needed, consistent with design */}
         {/* <div className="mb-4">
-             <div className="relative">
+              <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input placeholder="Search members..." className="pl-8" />
-             </div>
+              </div>
         </div> */}
 
         <Table>
@@ -70,7 +71,7 @@ export function MemberDictionary({ title = "Member Dictionary", items, onAddClic
                 <TableCell className="text-muted-foreground">{item.phone}</TableCell>
                 <TableCell>{item.bod}</TableCell>
                 <TableCell className="text-center">
-                   <Badge 
+                  <Badge 
                     variant="outline" 
                     className={
                       item.status === "Active" ? "bg-green-100 text-green-700 hover:bg-green-200 border-none" :
@@ -83,7 +84,7 @@ export function MemberDictionary({ title = "Member Dictionary", items, onAddClic
                 </TableCell>
                 <TableCell className="text-right">
                   <Button variant="ghost" size="sm" asChild className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                     <Link href={`/members/${item.id}`}>View</Link>
+                    <Link href={`/members/${item.id}`}>View</Link>
                   </Button>
                 </TableCell>
               </TableRow>

@@ -3,8 +3,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { UserDTO, SignupRequest } from "@client/entities/user/model/types";
-import { apiClient } from "@client/shared/lib/api-client";
+import { UserDTO, SignupRequest } from "@shared/types";
+import { apiClient } from "@client/shared/api-client";
 
 interface AuthContextType {
   user: UserDTO | null;
@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const checkAuth = async () => {
       try {
         const response = await apiClient.getMe();
-        if (response.status && response.data) {
+        if (response.success && response.data) {
           setUser(response.data);
         }
       } catch (error) {
@@ -41,23 +41,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const response = await apiClient.login(email, password);
-    if (response.status && response.data) {
+    if (response.success && response.data) {
       const { accessToken: token, user: userData } = response.data;
       setAccessToken(token);
       setUser(userData);
-      apiClient.setAccessToken(token);
       router.push("/dashboard");
     } else {
-      throw new Error(response.error || "Login failed");
+      throw new Error(response.error?.message || "Login failed");
     }
   };
 
   const signup = async (data: SignupRequest) => {
     const response = await apiClient.signup(data);
-    if (response.status) {
+    if (response.success) {
       router.push("/login");
     } else {
-      throw new Error(response.error || "Signup failed");
+      throw new Error(response.error?.message || "Signup failed");
     }
   };
 
@@ -69,7 +68,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setUser(null);
       setAccessToken(null);
-      apiClient.setAccessToken(null);
       router.push("/login");
     }
   };

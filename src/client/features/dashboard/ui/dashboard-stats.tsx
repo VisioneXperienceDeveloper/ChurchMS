@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { 
   Bar, 
   BarChart, 
@@ -12,9 +12,12 @@ import {
 } from "recharts";
 
 import { data, type StatType } from "@client/entities/dashboard/types";
-import { stats } from "@client/entities/dashboard/config";
+import { stats as defaultStatsConfig } from "@client/entities/dashboard/config";
 import { Card, CardContent, CardHeader, CardTitle } from "@client/shared/ui/card";
 import { cn } from "@client/shared/lib/utils";
+import { DashboardStats as StatsData, DashboardData } from "@shared/types/dashboard";
+import { apiClient } from "@client/shared/api-client";
+import { Loader2 } from "lucide-react";
 
 interface DashboardStatsProps {
   children?: React.ReactNode;
@@ -22,11 +25,40 @@ interface DashboardStatsProps {
 
 export function DashboardStats({ children }: DashboardStatsProps) {
   const [activeStat, setActiveStat] = useState<StatType>("members");
+  const [realStats, setRealStats] = useState<StatsData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await apiClient.get<DashboardData>('/api/v1/dashboard');
+      if (response.success && response.data) {
+        setRealStats(response.data.stats);
+      }
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  const getStatValue = (key: string) => {
+    if (!realStats) return "...";
+    switch (key) {
+      case "members": return realStats.totalMembers;
+      case "offerings": return "$12,450"; // Mock for now until offering logic implemented
+      case "attendance": return `${realStats.attendanceRate}%`;
+      case "active-groups": return realStats.activeGroups;
+      default: return 0;
+    }
+  };
+
+  const dashboardStatsConfig = defaultStatsConfig.map(s => ({
+    ...s,
+    value: getStatValue(s.key)
+  }));
 
   return (
     <div className="space-y-6 h-full flex flex-col">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 shrink-0">
-        {stats.map((stat) => (
+        {dashboardStatsConfig.map((stat) => (
           <Card 
             key={stat.key} 
             className={cn(
@@ -42,7 +74,9 @@ export function DashboardStats({ children }: DashboardStatsProps) {
               <stat.icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
+              <div className="text-2xl font-bold">
+                {loading ? <Loader2 className="h-5 w-5 animate-spin p-0" /> : stat.value}
+              </div>
               <p className="text-xs text-muted-foreground">
                 {stat.change}
               </p>
@@ -72,7 +106,7 @@ export function DashboardStats({ children }: DashboardStatsProps) {
                   fontSize={12}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `$${value}`}
+                  tickFormatter={(value) => `${value}`}
                 />
                 <Tooltip 
                     cursor={{fill: 'transparent'}}

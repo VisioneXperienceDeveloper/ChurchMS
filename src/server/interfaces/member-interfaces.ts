@@ -1,4 +1,4 @@
-import { Person, Role, Prisma } from "@client/shared/generated/prisma/client";
+import { Person, Prisma } from "@/server/shared/generated/prisma/client";
 
 export interface IMemberRepository {
   findAll(searchQuery?: string): Promise<Person[]>;

@@ -1,6 +1,5 @@
-import { User, Person } from "@client/shared/generated/prisma/client";
-
-import { AuthPayload } from "@client/entities/user/model/types";
+import { User, Person } from "@/server/shared/generated/prisma/client";
+import { AuthPayload } from "@shared/types";
 
 export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;

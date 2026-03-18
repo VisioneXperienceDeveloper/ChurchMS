@@ -1,15 +1,6 @@
 "use client";
 
-import { use } from "react";
 import { MemberDictionary, MemberData } from "@client/features/group/ui/member-dictionary";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@client/shared/ui/breadcrumb";
 
 // Mock data
 const mockMembers: MemberData[] = [

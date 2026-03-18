@@ -1,26 +1,15 @@
 import { NextRequest } from "next/server";
 import { container } from "@server/shared/di-container";
-import { SignupRequest } from "@client/entities/user/model/types";
 import { AppResponse } from "@server/shared/api-response";
+import { SignupRequest } from "@shared/types/auth";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body: SignupRequest = await req.json();
-    const { email, password, personData } = body;
-
-    if (!email || !password || !personData) {
-      return AppResponse.error("Missing required fields", 400);
-    }
-
-    const signupUseCase = container.getSignupUseCase();
-    const result = await signupUseCase.execute(body);
-
-    return AppResponse.success(
-      { user: { id: result.user.id, email: result.user.email } }, 201, 
-      { message: "Signup successful" }
-    );
+    const body: SignupRequest = await request.json();
+    const useCase = container.getSignupUseCase();
+    const result = await useCase.execute(body);
+    return AppResponse.success(result, 201);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Registration failed";
-    return AppResponse.error(message, 400);
+    return AppResponse.error(error instanceof Error ? error.message : "Signup failed", 400);
   }
 }

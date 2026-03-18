@@ -21,26 +21,35 @@ import { Button } from "@client/shared/ui/button";
 import { Badge } from "@client/shared/ui/badge";
 import { Separator } from "@client/shared/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@client/shared/ui/tooltip";
-import { getMemberById, deleteMember } from "@client/features/member/actions/member.actions";
+import { apiClient } from "@client/shared/api-client";
+import { PersonDTO } from "@shared/types/member";
 
 export default function MemberPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
 
-  const { data: member, isLoading, error } = useQuery({
+  const { data: response, isLoading, error: queryError } = useQuery({
     queryKey: ['member', id],
-    queryFn: () => getMemberById(id),
+    queryFn: () => apiClient.get<PersonDTO>(`/api/v1/members/${id}`),
     enabled: !!id,
   });
 
+  const member = response?.data;
+  const isError = queryError || (response && !response.success);
+  const errorMessage = queryError instanceof Error ? queryError.message : response?.error?.message || "Error: Member not found";
+
   if (isLoading) return <div className="p-8 text-center text-muted-foreground">Loading member...</div>;
-  if (error || !member) return <div className="p-8 text-center text-red-500">Error: Member not found</div>;
+  if (isError || !member) return <div className="p-8 text-center text-red-500">{errorMessage}</div>;
 
   const handleDelete = async () => {
     if (confirm("Are you sure you want to delete this member?")) {
-      await deleteMember(id);
-      router.push("/members");
+      const response = await apiClient.delete(`/api/v1/members/${id}`);
+      if (response.success) {
+        router.push("/members");
+      } else {
+        alert(response.error?.message || "Failed to delete member");
+      }
     }
   };
 

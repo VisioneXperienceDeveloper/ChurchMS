@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createMember } from "@client/features/member/actions/member.actions";
 import { Input, Button, Label, Card, CardContent, CardHeader, CardTitle } from "@client/shared/ui";
-import { Role } from "@client/shared/generated/prisma/client";
+import { apiClient } from "@client/shared/api-client";
+import { Role } from "@shared/types/enums";
+import { CreateMemberRequest } from "@shared/types/member";
 
 export default function NewMemberPage() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function NewMemberPage() {
     setLoading(true);
     setError(null);
     try {
-      const data = {
+      const data: CreateMemberRequest = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
         phone: formData.get("phone") as string,
@@ -24,9 +25,11 @@ export default function NewMemberPage() {
         groupId: "00000000-0000-0000-0000-000000000000" // Temporary fallback since we don't have a group selector yet
       };
       
-      const newMember = await createMember(data);
-      if (newMember) {
+      const response = await apiClient.post('/api/v1/members', data);
+      if (response.success) {
         router.push(`/members`);
+      } else {
+        setError(response.error?.message || "Failed to create member");
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "An error occurred");

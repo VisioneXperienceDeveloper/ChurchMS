@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, Plus, UserCircle } from "lucide-react";
 
-import { getMembers } from "@client/features/member/actions/member.actions";
+import { apiClient } from "@client/shared/api-client";
+import { PersonDTO } from "@shared/types/member";
 import {
   Table,
   TableBody,
@@ -25,10 +26,14 @@ import {
 export default function MembersPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: members, isLoading, error } = useQuery({
+  const { data: response, isLoading, error: queryError } = useQuery({
     queryKey: ['members', searchQuery],
-    queryFn: () => getMembers(searchQuery),
+    queryFn: () => apiClient.get<PersonDTO[]>(`/api/v1/members?query=${encodeURIComponent(searchQuery)}`),
   });
+
+  const members = response?.data || [];
+  const isError = queryError || (response && !response.success);
+  const errorMessage = queryError instanceof Error ? queryError.message : response?.error?.message || "Error loading members.";
 
   return (
     <div className="flex flex-col gap-6 p-6 max-w-7xl mx-auto w-full">
@@ -76,20 +81,20 @@ export default function MembersPage() {
                       Loading members...
                     </TableCell>
                   </TableRow>
-                ) : error ? (
+                ) : isError ? (
                   <TableRow>
                     <TableCell colSpan={5} className="h-24 text-center text-red-500">
-                      Error loading members.
+                      {errorMessage}
                     </TableCell>
                   </TableRow>
-                ) : members?.length === 0 ? (
+                ) : members.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
                       No members found.
                     </TableCell>
                   </TableRow>
                 ) : (
-                  members?.map((member) => (
+                  members.map((member) => (
                     <TableRow key={member.id} className="cursor-pointer hover:bg-muted/50 transition-colors">
                       <TableCell className="font-medium">
                         <Link href={`/members/${member.id}`} className="flex items-center gap-2">

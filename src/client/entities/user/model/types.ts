@@ -1,4 +1,4 @@
-import { User, Person, VisaType, Role } from "@client/shared/generated/prisma/client";
+import { User, Person, VisaType, Role } from "@/server/shared/generated/prisma/client";
 
 export type { User, Person, VisaType, Role };
 

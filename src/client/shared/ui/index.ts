@@ -10,3 +10,15 @@ export { Separator } from "./separator";
 export { SimpleTooltip } from "./simple-tooltip";
 export { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "./dialog";

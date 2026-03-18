@@ -17,7 +17,15 @@ export interface ApiResponse<T = unknown> {
 
 export class AppResponse {
   static success<T>(data: T, status = 200, meta?: Record<string, unknown>) {
-    const body: ApiResponse<T> = {
+    return NextResponse.json(this.plainSuccess(data, meta), { status });
+  }
+
+  static error(message: string, status = 400, code?: string, details?: unknown) {
+    return NextResponse.json(this.plainError(message, code, details), { status });
+  }
+
+  static plainSuccess<T>(data: T, meta?: Record<string, unknown>): ApiResponse<T> {
+    return {
       success: true,
       data,
       meta: {
@@ -25,11 +33,10 @@ export class AppResponse {
         ...meta,
       },
     };
-    return NextResponse.json(body, { status });
   }
 
-  static error(message: string, status = 400, code?: string, details?: unknown) {
-    const body: ApiResponse = {
+  static plainError<T = unknown>(message: string, code?: string, details?: unknown): ApiResponse<T> {
+    return {
       success: false,
       error: {
         message,
@@ -40,6 +47,5 @@ export class AppResponse {
         timestamp: new Date().toISOString(),
       },
     };
-    return NextResponse.json(body, { status });
   }
 }

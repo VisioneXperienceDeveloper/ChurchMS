@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcryptjs";
-import { Person } from "@client/shared/generated/prisma/client";
+import { Person } from "@/server/shared/generated/prisma/client";
 import { 
   IUserRepository, 
   IPersonRepository, 
   IAuthService, 
   IHasher 
 } from "../interfaces/auth-interfaces";
-import { PrismaClient } from "@client/shared/generated/prisma/client";
-import { AuthPayload } from "@client/entities/user/model/types";
+import { PrismaClient } from "@/server/shared/generated/prisma/client";
+import { AuthPayload } from "@shared/types";
 
 
 

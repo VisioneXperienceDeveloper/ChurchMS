@@ -3,14 +3,6 @@
 import { use } from "react";
 import { GroupStats } from "@client/features/group/ui/group-stats";
 import { GroupList, SubGroupData } from "@client/features/group/ui/group-list";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@client/shared/ui/breadcrumb";
 
 // Mock data
 const mockSubGroups: SubGroupData[] = [

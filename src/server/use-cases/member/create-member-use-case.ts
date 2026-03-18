@@ -1,4 +1,4 @@
-import { Person, Role, PersonType } from "@client/shared/generated/prisma/client";
+import { Person, Role, PersonType } from "@/server/shared/generated/prisma/client";
 import { IMemberRepository } from "../../interfaces/member-interfaces";
 import { prisma as prismaClient } from "../../infrastructure/prisma";
 

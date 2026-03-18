@@ -1,4 +1,4 @@
-import { PrismaClient, Person, Prisma } from "@client/shared/generated/prisma/client";
+import { PrismaClient, Person, Prisma } from "@/server/shared/generated/prisma/client";
 import { IMemberRepository } from "../interfaces/member-interfaces";
 
 export class PrismaMemberRepository implements IMemberRepository {

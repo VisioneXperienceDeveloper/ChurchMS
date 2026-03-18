@@ -1,4 +1,4 @@
-import { Person } from "@client/shared/generated/prisma/client";
+import { Person } from "@/server/shared/generated/prisma/client";
 import { IMemberRepository } from "../../interfaces/member-interfaces";
 
 export class GetMembersUseCase {
