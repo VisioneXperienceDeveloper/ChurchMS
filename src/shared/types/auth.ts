@@ -21,7 +21,7 @@ export interface UserDTO {
   } | null;
 }
 
-export interface SignupRequest {
+export interface SignupRequestDTO {
   email: string;
   password: string;
   personData: {
@@ -37,6 +37,15 @@ export interface SignupRequest {
     groupId?: string | null;
     note?: string | null;
     profileImgUrl?: string | null;
+  };
+}
+
+export interface SignupResponseDTO {
+  id: string;
+  email: string;
+  role: Role;
+  personData: {
+    id: string;
   };
 }
 

@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { UserDTO, SignupRequest } from "@shared/types";
+import { UserDTO, SignupRequestDTO } from "@shared/types";
 import { apiClient } from "@client/shared/api-client";
 
 interface AuthContextType {
@@ -11,7 +11,7 @@ interface AuthContextType {
   accessToken: string | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (data: SignupRequest) => Promise<void>;
+  signup: (data: SignupRequestDTO) => Promise<void>;
   logout: () => void;
 }
 
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signup = async (data: SignupRequest) => {
+  const signup = async (data: SignupRequestDTO) => {
     const response = await apiClient.signup(data);
     if (response.success) {
       router.push("/login");

@@ -1,10 +1,10 @@
 export interface ApiResponse<T = unknown> {
   success: boolean;
+  code: number;
   data?: T;
   error?: {
     message: string;
-    code?: string;
-    details?: unknown;
+    details?: string;
   };
   meta?: {
     timestamp: string;

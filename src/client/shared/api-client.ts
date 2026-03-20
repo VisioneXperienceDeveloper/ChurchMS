@@ -1,4 +1,4 @@
-import { ApiResponse, LoginResponseData, SignupRequest, UserDTO } from "@shared/types";
+import { ApiResponse, LoginResponseData, SignupRequestDTO, UserDTO } from "@shared/types";
 
 class ApiClient {
   private async request<T>(
@@ -23,9 +23,9 @@ class ApiClient {
       if (!response.ok) {
         return {
           success: false,
+          code: data.error?.code,
           error: {
             message: data.error?.message || response.statusText,
-            code: data.error?.code,
             details: data.error?.details,
           },
         };
@@ -36,6 +36,7 @@ class ApiClient {
       console.error(`API Request Error [${path}]:`, error);
       return {
         success: false,
+        code: 400,
         error: {
           message: error instanceof Error ? error.message : "Network error",
         },
@@ -77,7 +78,7 @@ class ApiClient {
     });
   }
 
-  async signup(data: SignupRequest): Promise<ApiResponse<UserDTO>> {
+  async signup(data: SignupRequestDTO): Promise<ApiResponse<UserDTO>> {
     return this.post("/api/v1/auth/signup", data);
   }
 
